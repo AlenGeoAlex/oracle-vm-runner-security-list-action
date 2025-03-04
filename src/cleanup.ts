@@ -42,7 +42,7 @@ export async function run(): Promise<void> {
     core.info('Found the ingress rule, starting clean up..')
     const ingressRules = securityListResponse.data[
       'ingress-security-rules'
-    ].filter((x) => x.description.startsWith(id))
+    ].filter((x) => !x.description.startsWith(id))
     await updateSecurityList({
       cliPath: cliBin,
       ingressUpdate: ingressRules,
