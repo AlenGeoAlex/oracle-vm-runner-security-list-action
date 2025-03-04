@@ -91,6 +91,7 @@ export async function run(): Promise<void> {
         `Waiting for ${holdIntervalSeconds}. [${currentCount}/${holdCount}]`
       )
       await wait(holdIntervalSeconds * 1000)
+      currentCount++
     } while (currentCount < holdCount)
 
     const ingressRule = {
@@ -180,18 +181,18 @@ export async function run(): Promise<void> {
     port: number,
     rule: IngressRule
   ): boolean {
-    if (rule.source === address) return true
+    if (rule.source === '0.0.0.0/0' || rule.source === address) {
+      if (
+        !rule['tcp-options'] ||
+        !rule['tcp-options']?.['destination-port-range']
+      )
+        return true
 
-    if (
-      !rule['tcp-options'] ||
-      !rule['tcp-options']?.['destination-port-range']
-    )
-      return false
+      const ruleElementElement = rule['tcp-options']['destination-port-range']
+      if (ruleElementElement.min <= port && ruleElementElement.max >= port)
+        return true
+    }
 
-    const ruleElementElement = rule['tcp-options']['destination-port-range']
-    if (ruleElementElement.min <= port || ruleElementElement.max >= port)
-      return true
-
-    return true
+    return false
   }
 }
