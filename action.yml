@@ -1,6 +1,6 @@
-name: The name of your action here
-description: Provide a description here
-author: Your name or organization here
+name: Grants temporary access to an Oracle OCI Security List
+description: Grants temporary access to an Oracle OCI Security List
+author: Alen Alex
 
 # Add your action's branding here. This will appear on the GitHub Marketplace.
 branding:
@@ -9,16 +9,40 @@ branding:
 
 # Define your inputs here.
 inputs:
-  milliseconds:
-    description: Your input description here
+  security-list-id:
+    description: >-
+      The OCID of the security list
     required: true
-    default: '1000'
+  hold-interval:
+    description: >-
+      If an existing address is present in what interval the app should check
+      for adding the ip address again
+    required: false
+    default: '5'
+  hold-count:
+    description: >-
+      How many times should the hold-interval should be checked
+    required: false
+    default: '12'
+  target-port:
+    description: >-
+      The target port to be opened
+    required: false
+    default: '22'
+  silent:
+    description: >-
+      (Default: true) If set to 'False', will stream the output of the command
+      directly to the log. This may leak confidential information. We recommend
+      keep this as false except for debugging purposes.
+    required: false
+    default: 'True'
 
 # Define your outputs here.
 outputs:
-  time:
+  securityLists:
     description: Your output description here
 
 runs:
   using: node20
   main: dist/index.js
+  post: dist/cleanup.js
