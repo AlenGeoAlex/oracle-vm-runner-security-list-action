@@ -7,11 +7,8 @@ import {
   updateSecurityList
 } from './helper.js'
 
-export async function run() {
-  main()
-}
 
-async function main(): Promise<void> {
+export async function run(): Promise<void> {
   try {
     const id = await getIdFromState()
     if (!id || id.trim().length === 0) {

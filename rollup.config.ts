@@ -16,25 +16,33 @@ const config = [
     },
     // @ts-ignore
     plugins: [
+      // @ts-ignore
       typescript(),
+      // @ts-ignore
       nodeResolve({ preferBuiltins: true }),
+      // @ts-ignore
       commonjs(),
+      // @ts-ignore
       terser()
     ]
   },
   {
-    input: 'src/cleanup.ts',
+    input: 'src/index-cleanup.ts',
     output: {
       esModule: true,
-      file: 'dist/cleanup.js',
+      file: 'dist/index-cleanup.js',
       format: 'es',
       sourcemap: true
     },
     // @ts-ignore
     plugins: [
+      // @ts-ignore
       typescript(),
+      // @ts-ignore
       nodeResolve({ preferBuiltins: true }),
+      // @ts-ignore
       commonjs(),
+      // @ts-ignore
       terser()
     ]
   }
